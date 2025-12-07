@@ -12,6 +12,9 @@
 
 使用 maven 配置引入
 
+**目前还是不能够使用maven的哇，直接使用源代码到项目中去吧**
+**作者使用私有仓库是这样配置的**
+
 ```xml
         <dependency>
             <groupId>com.geo</groupId>
