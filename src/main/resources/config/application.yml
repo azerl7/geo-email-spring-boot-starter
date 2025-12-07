@@ -1,0 +1,15 @@
+
+logging:
+  level:
+    org.springframework.beans.factory: DEBUG # 打印Bean创建日志
+    com.geo.email: DEBUG
+
+geo-email:
+  host: "[smtp server host]" # smtp 服务器 域名
+  from: "[sender email address]"# 发送者邮箱
+  auth-code: "[auth code]" # 邮箱认证码
+  ssl-enable: "[is enable ssl]" # 是否开启 ssl 加密
+  port: "smtp server port" # smtp 服务器端口
+  fallback: "is send with no ssl" # 是否把消息回发到 ssl 以外的邮箱
+  charset: "[charset]" # 邮件编码
+  personal: "[who send email]" # 邮件发送者组织

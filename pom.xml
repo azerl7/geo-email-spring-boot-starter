@@ -1,0 +1,220 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.geo</groupId>
+  <artifactId>geo-email-spring-boot-starter</artifactId>
+  <version>${revision}</version>
+  <packaging>jar</packaging>
+  <name>${project.artifactId}</name>
+
+  <developers>
+    <developer>
+      <name>AZERL7</name>
+      <email>1601761326@qq.com</email>
+      <url>https://blog.geometry.dpdns.org</url>
+    </developer>
+  </developers>
+
+  <properties>
+    <revision>1.0.0-SNAPSHOT</revision>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <java.version>17</java.version>
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
+    <!-- Maven 相关版本号 -->
+    <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+    <spring-boot.version>3.0.2</spring-boot.version>
+    <!-- slf4j 解决版本依赖问题 -->
+    <slf4j.version>2.0.9</slf4j.version>
+    <!-- 依赖包版本 -->
+    <lombok.version>1.18.30</lombok.version>
+    <!-- javax-email -->
+    <javax-meail.version>1.6.2</javax-meail.version>
+    <!-- commons-mail 简化邮箱操作-->
+    <commons-mail.version>1.5</commons-mail.version>
+<!--    &lt;!&ndash; jackson &ndash;&gt;-->
+<!--    <jackson.version>2.16.1</jackson.version>-->
+<!--    &lt;!&ndash; guava &ndash;&gt;-->
+<!--    <guava.version>33.0.0-jre</guava.version>-->
+<!--    &lt;!&ndash; commons-lang3 &ndash;&gt;-->
+<!--    <commons-lang3.version>3.12.0</commons-lang3.version>-->
+    <!-- maven-source-plugin(源码文档打包) -->
+    <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
+  </properties>
+
+  <dependencies>
+    <!-- 基础starter（自动引入正确的SLF4J 2.x + Logback） -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter</artifactId>
+      <version>${spring-boot.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <version>${spring-boot.version}</version>
+      <scope>test</scope>
+      <exclusions>
+        <!-- 排除test里的低版本SLF4J，让上面starter的2.x生效 -->
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-api</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-autoconfigure</artifactId>
+      <version>${spring-boot.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-validation</artifactId>
+      <version>${spring-boot.version}</version>
+    </dependency>
+
+    <!-- 避免编写那些冗余的 Java 样板式代码，如 get、set 等 -->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>${lombok.version}</version>
+    </dependency>
+
+<!--    &lt;!&ndash; Jackson &ndash;&gt;-->
+<!--    <dependency>-->
+<!--      <groupId>com.fasterxml.jackson.core</groupId>-->
+<!--      <artifactId>jackson-databind</artifactId>-->
+<!--      <version>${jackson.version}</version>-->
+<!--    </dependency>-->
+
+<!--    &lt;!&ndash; 相关工具类 &ndash;&gt;-->
+<!--    <dependency>-->
+<!--      <groupId>com.google.guava</groupId>-->
+<!--      <artifactId>guava</artifactId>-->
+<!--      <version>${guava.version}</version>-->
+<!--    </dependency>-->
+
+<!--    <dependency>-->
+<!--      <groupId>org.apache.commons</groupId>-->
+<!--      <artifactId>commons-lang3</artifactId>-->
+<!--      <version>${commons-lang3.version}</version>-->
+<!--    </dependency>-->
+
+    <!-- JavaMail 核心依赖 -->
+    <dependency>
+      <groupId>com.sun.mail</groupId>
+      <artifactId>javax.mail</artifactId>
+      <version>${javax-meail.version}</version>
+    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>org.springframework.boot</groupId>-->
+<!--      <artifactId>spring-boot-starter-mail</artifactId>-->
+<!--      <version>${spring-boot.version}</version>-->
+<!--    </dependency>-->
+    <!-- 简化邮件操作的工具类 -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-email</artifactId>
+      <version>${commons-mail.version}</version>
+    </dependency>
+  </dependencies>
+
+  <distributionManagement>
+    <!-- 正式版本仓库（对应Nexus的maven-releases） -->
+    <repository>
+      <id>private-maven-releases</id>
+      <url>http://192.168.170.114:6532/repository/maven-releases/</url>
+    </repository>
+    <!-- 快照版本仓库（对应Nexus的maven-snapshots，版本号带-SNAPSHOT时用） -->
+    <snapshotRepository>
+      <id>private-maven-snapshots</id>
+      <url>http://192.168.170.114:6532/repository/maven-snapshots/</url>
+    </snapshotRepository>
+    <!-- 若用自定义仓库，替换为：
+    <repository>
+        <id>my-maven-repo</id>
+        <url>http://IP:8081/repository/my-maven-repo/</url>
+    </repository>
+    -->
+  </distributionManagement>
+
+
+  <build>
+    <plugins>
+      <!-- SpringBoot打包插件 -->
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <version>${spring-boot.version}</version>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+        <!-- 可选：仅在package阶段执行（避免干扰deploy） -->
+        <executions>
+          <execution>
+            <id>repackage</id>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+            <configuration>
+              <skip>true</skip>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- 可选：移除GPG/源码/文档插件（测试阶段） -->
+      <!-- <plugin>...maven-gpg-plugin...</plugin> -->
+      <!-- <plugin>...maven-source-plugin...</plugin> -->
+      <!-- <plugin>...maven-javadoc-plugin...</plugin> -->
+      <!-- 可选：源码/文档打包（方便使用者查看） -->
+
+      <!-- 可选：确保生成普通JAR（maven-jar-plugin） -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.3.0</version>
+        <executions>
+          <execution>
+            <id>default-jar</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Deploy插件（可选：指定版本，避免兼容问题） -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>3.1.1</version> <!-- 降级到3.1.1，避免3.1.2的兼容问题 -->
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>${maven-source-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+    <sourceDirectory>src/main/java</sourceDirectory>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <includes>
+          <include>**/*</include>
+        </includes>
+      </resource>
+    </resources>
+  </build>
+</project>
