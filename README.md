@@ -13,7 +13,39 @@
 使用 maven 配置引入
 
 ```xml
+        <dependency>
+            <groupId>com.geo</groupId>
+            <artifactId>geo-email-spring-boot-starter</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+```
 
+编写 yml 文件
+
+```yml
+geo-email:
+  host: "[smtp server host]" # smtp 服务器 域名
+  from: "[sender email address]"# 发送者邮箱
+  auth-code: "[auth code]" # 邮箱认证码
+  ssl-enable: "[is enable ssl]" # 是否开启 ssl 加密
+  port: "smtp server port" # smtp 服务器端口
+  fallback: "is send with no ssl" # 是否把消息回发到 ssl 以外的邮箱
+  charset: "[charset]" # 邮件编码
+  personal: "[who send email]" # 邮件发送者组织
+```
+
+最后直接调用即可
+
+```java
+    @GetMapping("/email/send")
+    public String emailTest() {
+        Status status = EmailUtils.sendHtmlEmail(
+                "1601761326@qq.com",
+                "【GEO-EMAIL】",
+                "private repository is create success!!! <b> you started the first step </b>");
+        log.info(status.name());
+        return "Hello Navi~";
+    }
 ```
 
 
